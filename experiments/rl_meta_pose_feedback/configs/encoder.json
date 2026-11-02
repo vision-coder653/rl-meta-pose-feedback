@@ -1,0 +1,8 @@
+{
+  "checkpoint": "assets/meta/tracking_vemg2pose.ckpt",
+  "checkpoint_sha256": "629783b2b1e8bc1316190fc2a57ba95396dd0d6b59cfbb38543fc6ad8bd61ae5",
+  "latent_dim": 512,
+  "rollout_hz": 50,
+  "frozen": true,
+  "temporal_protocol": "meta_offline_linear_align_corners_v1"
+}

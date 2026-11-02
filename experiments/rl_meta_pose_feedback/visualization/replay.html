@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EMG 机械手 · 同步回放</title>
+<style>
+:root{color-scheme:light;--ink:#18304b;--muted:#64758b;--blue:#2563eb;--line:#dce4ee}
+*{box-sizing:border-box}body{margin:0;background:#edf2f8;color:var(--ink);font:15px "Segoe UI","Microsoft YaHei",sans-serif}
+main{max-width:1680px;margin:auto;padding:24px 30px}header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:18px}
+h1{font-size:25px;letter-spacing:.2px;margin:0 0 6px}p{margin:0;color:var(--muted);line-height:1.6}.badge{white-space:nowrap;color:#225b43;background:#e0f1e8;border:1px solid #bfe0cd;padding:9px 14px;border-radius:20px;font-size:13px}
+.viewer{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#f8fafc;box-shadow:0 12px 35px #21334b0b}
+canvas{display:block;width:100%;height:min(66vh,700px);min-height:350px;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}
+.panel-head{position:absolute;top:19px;width:50%;padding:0 24px;pointer-events:none}.panel-head.right{left:50%}.panel-head strong{display:block;font-size:20px;margin-bottom:5px}.panel-head small{font-size:13px;color:var(--muted)}
+.divider{position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--line);pointer-events:none}.tag{position:absolute;bottom:17px;left:22px;color:var(--muted);font-size:12px;pointer-events:none}.tag.right{left:calc(50% + 22px)}
+.toolbar,.timeline{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.toolbar{margin-top:17px}.toolbar label{display:flex;align-items:center;gap:7px;font-size:13px}
+button,select{font:inherit;border:1px solid #ced9e6;border-radius:8px;background:white;color:var(--ink);padding:8px 12px}button{cursor:pointer}button.primary{background:var(--blue);border-color:var(--blue);color:white;min-width:85px}button:hover{filter:brightness(.97)}
+select{max-width:410px}.timeline{margin-top:17px;background:white;padding:15px 18px;border:1px solid var(--line);border-radius:12px}.timeline input{flex:1;min-width:180px;accent-color:var(--blue)}.number{font-variant-numeric:tabular-nums;font-family:Consolas,monospace;font-size:14px}.cost{min-width:210px;text-align:right}.notes{font-size:12px;margin-top:11px;display:flex;justify-content:space-between;gap:12px}.notes span{color:var(--muted)}
+#fatal{display:none;background:#fff0ec;border:1px solid #f5c7b9;color:#943c26;padding:16px;border-radius:12px;margin:12px 0}#source{overflow-wrap:anywhere}
+@media(max-width:800px){main{padding:15px 10px}header{align-items:flex-start}.badge{font-size:11px;padding:7px}h1{font-size:20px}.panel-head{padding:0 11px}.panel-head strong{font-size:16px}.panel-head small{font-size:11px}.cost{min-width:0}.notes{display:block}select{max-width:260px}}
+</style>
+<main>
+<header><div><h1>EMG → 机械手 · 同步回放</h1><p id="context">加载模型与测试轨迹…</p></div><span class="badge" id="checkpoint"></span></header>
+<div id="fatal"></div>
+<div class="viewer">
+  <canvas id="view"></canvas>
+  <div class="panel-head"><strong>UmeTrack · Ground truth</strong><small id="human-note">真实角度标签 · 标准右手蒙皮 · 腕部固定</small></div>
+  <div class="panel-head right"><strong>解码后的机械手</strong><small id="robot-note">仿真实际关节运动 · 确定性均值策略</small></div>
+  <div class="divider"></div><span class="tag" id="scale-left"></span><span class="tag right" id="scale-right"></span>
+</div>
+<div class="toolbar">
+  <button class="primary" id="play">暂停</button><button id="restart">从头播放</button>
+  <label>片段 <select id="clip"></select></label>
+  <label>速度 <select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option selected value="1">1×</option><option value="2">2×</option></select></label>
+  <label><input type="checkbox" id="equal">相同物理比例</label>
+  <label><input type="checkbox" id="markers" checked>参考点</label>
+  <button id="camera">重置视角</button>
+</div>
+<div class="timeline"><span class="number" id="clock"></span><input id="seek" aria-label="回放帧" type="range" min="0" step="1"><span class="number cost" id="cost"></span></div>
+<p class="notes"><span>拖动旋转两侧视角 · 滚轮缩放 · 空格播放/暂停。初始帧后，左右按相同仿真步末时间对齐。</span><span id="scale-note">各自适配视图；模型尺寸未修改。</span></p>
+<p class="notes"><span id="source"></span><span>青色：固定掌部参考点　红色：参与比较的指尖</span></p>
+<p class="notes"><span>UmeTrack model © Meta Platforms, Inc. and affiliates · CC-BY-NC-SA-4.0</span><span>此处不包含全局腕部位姿；切换片段时各自从初始化状态开始。</span></p>
+</main>
+<script>
+"use strict";
+const DATA=__REPLAY_DATA__;
+const STATIC_POSE=DATA.mode==="retargeting";
+try {
+const $=id=>document.getElementById(id), canvas=$("view");
+const gl=canvas.getContext("webgl2",{antialias:true,alpha:false,preserveDrawingBuffer:true});
+if(!gl) throw Error("浏览器未启用 WebGL 2。请在 Edge / Chrome 中启用图形加速后重新打开。");
+function decode(a){const bytes=Uint8Array.from(atob(a.data),c=>c.charCodeAt(0));return a.type==="u32"?new Uint32Array(bytes.buffer):new Float32Array(bytes.buffer)}
+function compile(type,source){const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(shader));return shader}
+const vs=compile(gl.VERTEX_SHADER,`#version 300 es
+in vec3 aPosition; uniform mat4 uModel,uVP; uniform float uPointSize; out vec3 vPosition;
+void main(){vec4 p=uModel*vec4(aPosition,1.);vPosition=p.xyz;gl_Position=uVP*p;gl_PointSize=uPointSize;}`);
+const fs=compile(gl.FRAGMENT_SHADER,`#version 300 es
+precision highp float; in vec3 vPosition; uniform vec4 uColor; uniform bool uPoints; out vec4 color;
+void main(){if(uPoints){vec2 p=gl_PointCoord*2.-1.;if(dot(p,p)>1.)discard;color=uColor;return;}
+vec3 n=normalize(cross(dFdx(vPosition),dFdy(vPosition)));float light=.43+.57*abs(dot(n,normalize(vec3(.35,.6,1.))));color=vec4(uColor.rgb*light,1.);}`);
+const program=gl.createProgram();gl.attachShader(program,vs);gl.attachShader(program,fs);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
+const location={position:gl.getAttribLocation(program,"aPosition"),model:gl.getUniformLocation(program,"uModel"),vp:gl.getUniformLocation(program,"uVP"),color:gl.getUniformLocation(program,"uColor"),points:gl.getUniformLocation(program,"uPoints"),size:gl.getUniformLocation(program,"uPointSize")};
+const identity=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
+function mesh(vertices,triangles,dynamic=false){const vao=gl.createVertexArray();gl.bindVertexArray(vao);const vb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,vb);gl.bufferData(gl.ARRAY_BUFFER,vertices,dynamic?gl.DYNAMIC_DRAW:gl.STATIC_DRAW);gl.enableVertexAttribArray(location.position);gl.vertexAttribPointer(location.position,3,gl.FLOAT,false,0,0);let ib=null;if(triangles){ib=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ib);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,triangles,gl.STATIC_DRAW)}return {vao,vb,ib,count:triangles?triangles.length:vertices.length/3}}
+const robotMeshes=DATA.robotMeshes.map(m=>mesh(decode(m.vertices),decode(m.triangles)));
+const clips=DATA.clips.map(c=>({...c,human:decode(c.humanVertices),humanMarks:decode(c.humanMarkers),robot:decode(c.robotTransforms),robotMarks:decode(c.robotMarkers),vertices:c.humanVertices.shape[1],humanMarkCount:c.humanMarkers.shape[1],robotMarkCount:c.robotMarkers.shape[1]}));
+const humanMesh=mesh(new Float32Array(clips[0].vertices*3),decode(DATA.humanTriangles),true), pointMesh=mesh(new Float32Array(3*10),null,true);
+function norm(v){const n=Math.hypot(...v);return v.map(x=>x/n)}function cross(a,b){return [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]]}function dot(a,b){return a.reduce((s,x,i)=>s+x*b[i],0)}
+function multiply(a,b){const r=new Float32Array(16);for(let c=0;c<4;c++)for(let row=0;row<4;row++)for(let k=0;k<4;k++)r[c*4+row]+=a[k*4+row]*b[c*4+k];return r}
+function perspective(fov,aspect,near,far){const f=1/Math.tan(fov/2),d=near-far;return new Float32Array([f/aspect,0,0,0,0,f,0,0,0,0,(far+near)/d,-1,0,0,2*far*near/d,0])}
+function lookAt(eye,target){const z=norm(eye.map((x,i)=>x-target[i])),x=norm(cross([0,1,0],z)),y=cross(z,x);return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,eye),-dot(y,eye),-dot(z,eye),1])}
+function bounds(box){return {center:box[0].map((v,i)=>(v+box[1][i])/2),radius:Math.hypot(...box[0].map((v,i)=>(box[1][i]-v)/2))}}
+let clipIndex=0,frame=0,playing=true,dirty=true,lastTick=performance.now(),time=0,yaw=Math.PI+.28,pitch=.24,zoom=1,uploaded="",renderedFrame=-1;
+const parameters=new URLSearchParams(window.location.search);
+playing=!STATIC_POSE&&parameters.get("autoplay")!=="0";
+function ortho(width,height){const near=.001,far=100;return new Float32Array([2/width,0,0,0,0,2/height,0,0,0,0,-2/(far-near),0,0,0,-(far+near)/(far-near),1])}
+function updateText(){const c=clips[clipIndex];$("seek").value=frame;$("clock").textContent=STATIC_POSE?"同一真实人手姿态":`${c.times[frame].toFixed(2)} / ${c.times.at(-1).toFixed(2)} s`;$("cost").textContent=c.costs[frame]===null?"初始帧 · 无步末代价":`${DATA.costLabel||"局部向量代价"} ${c.costs[frame].toFixed(6)}`;$("play").textContent=playing?"暂停":"播放"}
+function setFrame(index){index=Number(index);if(!Number.isFinite(index))throw Error("Invalid frame index");frame=Math.max(0,Math.min(clips[clipIndex].times.length-1,Math.round(index)));time=clips[clipIndex].times[frame];dirty=true;updateText()}
+function setClip(index){index=Number(index);if(!Number.isInteger(index)||index<0||index>=clips.length)throw Error("Invalid clip index");clipIndex=index;const c=clips[index];$("clip").value=index;$("seek").max=c.times.length-1;$("context").textContent=STATIC_POSE?`真实训练样本 · ${c.stage} · 标准人手 / HOD 机械手`:`${DATA.split} · 片段 ${String(c.id).padStart(3,"0")} · ${c.stage} · ${c.times.at(-1).toFixed(2)} 秒`;$("source").textContent=c.filename;setFrame(0)}
+function pause(){playing=false;updateText()}function play(){if(STATIC_POSE)return;if(frame===clips[clipIndex].times.length-1)setFrame(0);playing=true;lastTick=performance.now();updateText()}
+clips.forEach((c,i)=>{const option=document.createElement("option");option.value=i;option.textContent=`${String(c.id).padStart(3,"0")} · ${c.stage}`;$("clip").append(option)});
+$("checkpoint").textContent=`Checkpoint ${DATA.checkpointUpdate} · ${DATA.group}`;
+if(DATA.humanScale!==1)$("human-note").textContent+=` · reward 尺度 ×${DATA.humanScale}`;
+if(DATA.zeroActions)$("robot-note").textContent="零动作对照 · 持续保持初始化目标";
+else if(DATA.emgControl!=="matched")$("robot-note").textContent=`${DATA.emgControl==="permuted"?"错配 EMG":DATA.emgControl==="zero"?"全零 EMG":"恒定均值 EMG"} · 仿真实际运动`;
+if(DATA.controller==="reference_retarget"){
+  document.title="人手参考 × 参考动作控制器 · 同步回放";
+  document.querySelector("h1").textContent="人手参考 × 参考动作控制器";
+  document.querySelector(".panel-head strong").textContent="真实人手动作（标签重建）";
+  document.querySelector(".panel-head.right strong").textContent="参考动作控制器 · 机械手";
+  $("robot-note").textContent="已知下一时刻参考姿态 · MuJoCo 实际运动 · 非 decoder";
+  $("checkpoint").textContent=`参考控制诊断 · ${DATA.group}`;
+}
+if(STATIC_POSE){
+  document.title="首帧姿态重定向 · 前后对照";document.querySelector("h1").textContent="人手 → 机械手 · 首帧重定向";
+  document.querySelector(".panel-head.right strong").textContent="机械手 · 运动学姿态";
+  $("robot-note").textContent="SLSQP 向量匹配 · 可切换对齐前后";
+  $("checkpoint").textContent=`${DATA.status==="accepted"?"求解通过":"候选未通过："+DATA.status} · ${DATA.group}`;
+  for(const id of ["play","restart","seek","speed"])$(id).style.display="none";
+  $("speed").parentElement.style.display="none";
+  document.querySelector(".toolbar label").firstChild.textContent="姿态 ";
+  document.querySelector(".notes span").textContent="拖动旋转两侧视角 · 滚轮缩放 · 切换对齐前后。此页展示静态姿态，不是训练输出。";
+  document.querySelector("main > p:last-child span:last-child").textContent="相同人手标签；模型尺寸未修改。残差包含形态差异与求解误差。";
+}
+$("play").onclick=()=>playing?pause():play();$("restart").onclick=()=>{setFrame(0);play()};$("clip").onchange=e=>setClip(Number(e.target.value));
+$("seek").oninput=e=>{const requested=Number(e.target.value);pause();setFrame(requested)};$("speed").onchange=()=>{lastTick=performance.now()};
+$("equal").onchange=()=>{dirty=true;$("scale-note").textContent=$("equal").checked?"相同物理比例：两侧米/像素一致；模型尺寸未修改。":"各自适配视图；模型尺寸未修改。"};$("markers").onchange=()=>{dirty=true};
+function resetCamera(){yaw=Math.PI+.28;pitch=.24;zoom=1;dirty=true}$("camera").onclick=resetCamera;
+let pointer=null;canvas.addEventListener("pointerdown",e=>{pointer=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener("pointermove",e=>{if(!pointer)return;yaw-=(e.clientX-pointer[0])*.007;pitch=Math.max(-1.35,Math.min(1.35,pitch+(e.clientY-pointer[1])*.007));pointer=[e.clientX,e.clientY];dirty=true});
+canvas.addEventListener("pointerup",()=>{pointer=null});canvas.addEventListener("pointercancel",()=>{pointer=null});canvas.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(.25,Math.min(5,zoom*Math.exp(e.deltaY*.001)));dirty=true},{passive:false});
+window.addEventListener("keydown",e=>{if(e.target.matches("input,select,button"))return;if(e.code==="Space"){e.preventDefault();playing?pause():play()}if(e.code==="KeyR")setFrame(0)});
+function drawObject(m,transform,color){gl.bindVertexArray(m.vao);gl.uniformMatrix4fv(location.model,false,transform);gl.uniform4fv(location.color,color);gl.uniform1i(location.points,0);gl.drawElements(gl.TRIANGLES,m.count,gl.UNSIGNED_INT,0)}
+function drawMarkers(values,count){gl.bindVertexArray(pointMesh.vao);gl.bindBuffer(gl.ARRAY_BUFFER,pointMesh.vb);gl.bufferSubData(gl.ARRAY_BUFFER,0,values);gl.uniformMatrix4fv(location.model,false,identity);gl.uniform1i(location.points,1);gl.uniform1f(location.size,8*Math.min(window.devicePixelRatio,2));gl.uniform4fv(location.color,[.08,.7,.75,1]);gl.drawArrays(gl.POINTS,0,1);gl.uniform4fv(location.color,[.96,.23,.29,1]);gl.drawArrays(gl.POINTS,1,count-1)}
+function draw(){
+ const ratio=Math.min(window.devicePixelRatio||1,2),width=Math.round(canvas.clientWidth*ratio),height=Math.round(canvas.clientHeight*ratio);
+ if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;dirty=true}
+ if(!dirty)return;dirty=false;const c=clips[clipIndex],key=`${clipIndex}:${frame}`;
+ if(uploaded!==key){gl.bindBuffer(gl.ARRAY_BUFFER,humanMesh.vb);gl.bufferSubData(gl.ARRAY_BUFFER,0,c.human.subarray(frame*c.vertices*3,(frame+1)*c.vertices*3));uploaded=key}
+ gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);gl.clearColor(.968,.977,.99,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+ const a=bounds(c.humanBounds),b=bounds(c.robotBounds),equal=$("equal").checked,half=Math.floor(width/2);
+ [a,b].forEach((box,side)=>{const w=side?width-half:half,aspect=w/height,radius=equal?Math.max(a.radius,b.radius):box.radius;
+   const span=2.35*radius*zoom/Math.min(1,aspect),distance=Math.max(1,radius*4),direction=[Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch)],eye=box.center.map((v,i)=>v+direction[i]*distance);
+   gl.viewport(side?half:0,0,w,height);gl.uniformMatrix4fv(location.vp,false,multiply(ortho(span*aspect,span),lookAt(eye,box.center)));
+   if(side===0){drawObject(humanMesh,identity,[.86,.62,.46,1]);if($("markers").checked)drawMarkers(c.humanMarks.subarray(frame*c.humanMarkCount*3,(frame+1)*c.humanMarkCount*3),c.humanMarkCount)}
+   else{DATA.robotObjects.forEach((obj,j)=>{const offset=(frame*DATA.robotObjects.length+j)*16;drawObject(robotMeshes[obj.mesh],c.robot.subarray(offset,offset+16),obj.color)});if($("markers").checked)drawMarkers(c.robotMarks.subarray(frame*c.robotMarkCount*3,(frame+1)*c.robotMarkCount*3),c.robotMarkCount)}
+   $(side?"scale-right":"scale-left").textContent=`${equal?"相同比例":"各自适配"} · 50 mm ≈ ${(height/ratio/span*.05).toFixed(0)} px`;
+ });gl.flush();renderedFrame=frame;document.documentElement.dataset.ready="true";
+}
+new ResizeObserver(()=>{dirty=true}).observe(canvas);
+function tick(now){const delta=Math.max(0,Math.min((now-lastTick)/1000,.15));lastTick=now;if(playing){const c=clips[clipIndex];time+=delta*Number($("speed").value);if(time>c.times.at(-1)+.65)time=0;const next=Math.min(c.times.length-1,Math.floor(time/(c.times[1]-c.times[0])+1e-7));if(next!==frame){frame=next;dirty=true;updateText()}}draw();requestAnimationFrame(tick)}
+setClip(Number(parameters.get("clip")||0));setFrame(Number(parameters.get("frame")||0));draw();requestAnimationFrame(tick);
+window.replay={setFrame,setClip,pause,play,resetCamera,render:draw,state:()=>({clip:clipIndex,frame,renderedFrame,playing,clips:clips.length,frames:clips[clipIndex].times.length,width:canvas.width,height:canvas.height,webgl:gl.getParameter(gl.VERSION),equalScale:$("equal").checked})};
+} catch(error){document.documentElement.dataset.error=String(error);document.getElementById("fatal").style.display="block";document.getElementById("fatal").textContent=String(error);console.error(error);}
+</script>
+</html>

@@ -1,0 +1,552 @@
+{
+  "source_commit": "9d6768c8a298daa367859cdae97f757d2631d6eb",
+  "note": "Copied from local research checkout, then adapted resource paths, packaging, tests and documentation for fresh training only. Original hashes are provenance, not current-file hashes. No dataset, weights, cached samples, run artifacts, results or continuation scripts are published.",
+  "files": [
+    {
+      "source": "experiment/core/configs/groups.py",
+      "file": "core/configs/groups.py",
+      "sha256": "bdcb353a1770ff861a637c8cb14fa6625b0f575f4f1ada7e90909d12cd8660cc"
+    },
+    {
+      "source": "experiment/core/configs/__init__.py",
+      "file": "core/configs/__init__.py",
+      "sha256": "2ce768cd54e6a74f9336fb13da2d3f58fbdd57ee20254da6f330af68a345594d"
+    },
+    {
+      "source": "experiment/core/data_pipeline/recordings.py",
+      "file": "core/data_pipeline/recordings.py",
+      "sha256": "d2ece83a0aff1c13255bc9afb85f6643caafaadbf04ad00e529088b1205bf6cd"
+    },
+    {
+      "source": "experiment/core/data_pipeline/windows.py",
+      "file": "core/data_pipeline/windows.py",
+      "sha256": "feb74bbcda04b08055a83d6f40dc836a3926b4308f049e3996970234a255e214",
+      "revision": "9d6768c"
+    },
+    {
+      "source": "experiment/core/data_pipeline/__init__.py",
+      "file": "core/data_pipeline/__init__.py",
+      "sha256": "cc4e40224eaba3a2815b2b8c6ad605df8f27b54f60a27af81c54459d7669ab0d"
+    },
+    {
+      "source": "experiment/core/kinematics/frames.py",
+      "file": "core/kinematics/frames.py",
+      "sha256": "d03b35bae5232b59923c31612bfd90f869a82998e33e8ade534056201bff0e03"
+    },
+    {
+      "source": "experiment/core/kinematics/hod.py",
+      "file": "core/kinematics/hod.py",
+      "sha256": "c757c93b5576595ac80b43a57c45b65196cad2250782888bd4e4586ac98dab56"
+    },
+    {
+      "source": "experiment/core/kinematics/human.py",
+      "file": "core/kinematics/human.py",
+      "sha256": "729167ac7330a40c679f30963953c0275404b66596a9465a46c5d60188a3ba38"
+    },
+    {
+      "source": "experiment/core/kinematics/mesh.py",
+      "file": "core/kinematics/mesh.py",
+      "sha256": "4cd62a67bf335f6745a3de3933218f3d900b8d0057172d333612f0bad3d293f5"
+    },
+    {
+      "source": "experiment/core/kinematics/reference_points.py",
+      "file": "core/kinematics/reference_points.py",
+      "sha256": "87330f94eff36cb1df01aa30a7ff4ba0a5a71aa405971f54447f4fa8f0fea7b4"
+    },
+    {
+      "source": "experiment/core/kinematics/robot.py",
+      "file": "core/kinematics/robot.py",
+      "sha256": "b20fbfa991560014d347f94d4acafc271c967dc06409934c12b68b7af2d743e4"
+    },
+    {
+      "source": "experiment/core/kinematics/__init__.py",
+      "file": "core/kinematics/__init__.py",
+      "sha256": "0940ef76c9231a9009d574979b41ef4716ec2b40ec532aaa79689d3de1dd3063"
+    },
+    {
+      "source": "experiment/core/kinematics/umetrack/hand.py",
+      "file": "core/kinematics/umetrack/hand.py",
+      "sha256": "ce2067a6afd0339d6b1ab4b4e85efa20afc07a4233e8a2d445a2bf1d0ac2c7f4"
+    },
+    {
+      "source": "experiment/core/kinematics/umetrack/hand_skinning.py",
+      "file": "core/kinematics/umetrack/hand_skinning.py",
+      "sha256": "73d74cb31ca05165ffa1ead9c8cf7ff6120a0798d1e4de8ed1cc497a28a9ea09"
+    },
+    {
+      "source": "experiment/core/kinematics/umetrack/pytorch3d_transforms_so3.py",
+      "file": "core/kinematics/umetrack/pytorch3d_transforms_so3.py",
+      "sha256": "e06fac0d29ba41e0c852d003d3aa2e63e1720954f827c10f9848ff31aedba5e5"
+    },
+    {
+      "source": "experiment/core/kinematics/umetrack/__init__.py",
+      "file": "core/kinematics/umetrack/__init__.py",
+      "sha256": "ecd09334bd70686b2bd5ae2c9b734982933fcf9b48ff6eec37e72c9f6d2e0db8"
+    },
+    {
+      "source": "experiment/core/simulation/environment.py",
+      "file": "core/simulation/environment.py",
+      "sha256": "2d670796bcb37a1c1e7133601ccf5f98be90e8290d91a74380ccf7e929627a43"
+    },
+    {
+      "source": "experiment/core/simulation/morphology.py",
+      "file": "core/simulation/morphology.py",
+      "sha256": "24ad8ef4d21bc6ca3efe61dab4c4c6430d61dff840f22a1293eec6aae2160c82"
+    },
+    {
+      "source": "experiment/core/simulation/retargeting.py",
+      "file": "core/simulation/retargeting.py",
+      "sha256": "59bd77da2225a158c894a02f83572e17dc90913a4169e9adce26bee7b9c487b5"
+    },
+    {
+      "source": "experiment/core/simulation/reward.py",
+      "file": "core/simulation/reward.py",
+      "sha256": "dbbe563f2b03c73ed26826bd4d4dfa95b5902de4bd0d949c3db39b29fef277f3"
+    },
+    {
+      "source": "experiment/core/simulation/__init__.py",
+      "file": "core/simulation/__init__.py",
+      "sha256": "36f244a9227393f2be27b2e8a37445ed66efecf912b2bd4026a55cac64a85349"
+    },
+    {
+      "source": "experiment/core/resources/licenses/emg2pose_LICENSE.txt",
+      "file": "core/resources/licenses/emg2pose_LICENSE.txt",
+      "sha256": "229cce37370557577c8c9d16d636ce6f71ac41aa9aafd196ff8cfe253ed95a71"
+    },
+    {
+      "source": "experiment/core/resources/umetrack/generic_hand_mesh.json",
+      "file": "core/resources/umetrack/generic_hand_mesh.json",
+      "sha256": "d53c33cac87e6ca0b6252c5673c0438da821084352b239a351907b7c861bbe21"
+    },
+    {
+      "source": "experiment/core/resources/umetrack/generic_hand_model.json",
+      "file": "core/resources/umetrack/generic_hand_model.json",
+      "sha256": "694dfae151ece23be98bc3113df6e448031b1387eea8ee3004d882ae2e83ac4d"
+    },
+    {
+      "source": "experiment/core/resources/umetrack/LICENSE",
+      "file": "core/resources/umetrack/LICENSE",
+      "sha256": "2afe33b89384d58a069e99c571c7b274ee2f82592abe6b0420aa6ca0c175c8fa"
+    },
+    {
+      "source": "experiment/core/resources/umetrack/UPSTREAM.md",
+      "file": "core/resources/umetrack/UPSTREAM.md",
+      "sha256": "894a2f7964515387575814fa18d16cdd5c2f525319df714c208491116224969b"
+    },
+    {
+      "source": "experiment/configs/training_groups.json",
+      "file": "configs/training_groups.json",
+      "sha256": "62c759038e867a3bfce32d9407448256463233989e412c8c2f1861cacd7b6b71"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/evaluate.py",
+      "file": "experiments/rl_meta_pose_feedback/evaluate.py",
+      "sha256": "44690af69ea6d30ebf77c2bde661a6c741e39770ea250d35791f9c9a74258394"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/replay.py",
+      "file": "experiments/rl_meta_pose_feedback/replay.py",
+      "sha256": "b36a6d2bf8bc8f3d23dd2542b20014173b5b5e952ae4ccee6d63701cfaa433a8"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/train.py",
+      "file": "experiments/rl_meta_pose_feedback/train.py",
+      "sha256": "8e048066f7333e078f860f23bba8491a015d5ead12a5b242e1e42056fd09ce52"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/_bootstrap.py",
+      "file": "experiments/rl_meta_pose_feedback/_bootstrap.py",
+      "sha256": "5733c86a20afe3241236264b339cab7c91fbd318d247406335730c2b0ed51116"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/__init__.py",
+      "file": "experiments/rl_meta_pose_feedback/__init__.py",
+      "sha256": "3f1f1e64a6074765ef3650447bd21e209c70876cb2f5687c1c2790bd80d60ef2"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/configs/decoder.json",
+      "file": "experiments/rl_meta_pose_feedback/configs/decoder.json",
+      "sha256": "f3ffb7dab49eaafe5c10db01b3cc8e8c7fa08e4d07ffec3a6b10572708c40214"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/configs/encoder.json",
+      "file": "experiments/rl_meta_pose_feedback/configs/encoder.json",
+      "sha256": "d7b80fc5ff8d5106b602bb1f5429687574fbd040c8320a35a5eeb9f25bacb242"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/configs/environment.json",
+      "file": "experiments/rl_meta_pose_feedback/configs/environment.json",
+      "sha256": "6af07108a3cf196d064a877d2dd88fa3e678cf2c4f7ea8b46fba85245e53261b"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/configs/ppo.json",
+      "file": "experiments/rl_meta_pose_feedback/configs/ppo.json",
+      "sha256": "a04d1aad36538e304931feb67bccd32686ab2c52b5e793b11ead3da0bb1b4a24"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/configs/ppo_raw_large.json",
+      "file": "experiments/rl_meta_pose_feedback/configs/ppo_raw_large.json",
+      "sha256": "9e7c4403c16434b35b5de3edddfabd8e394a69a387e30265a339f7aef06e2e27"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/models/action_distribution.py",
+      "file": "experiments/rl_meta_pose_feedback/models/action_distribution.py",
+      "sha256": "399de4055efb2f4149cc2252a4fc807606d4ff6a08e5f785e176186f2376dc8e"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/models/command_head.py",
+      "file": "experiments/rl_meta_pose_feedback/models/command_head.py",
+      "sha256": "446243eaf35a069ac775a60ab7afc9641523441decd06b349ffad369e4f7788e"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/models/emg2pose_tds.py",
+      "file": "experiments/rl_meta_pose_feedback/models/emg2pose_tds.py",
+      "sha256": "ac9652d69f44fe4e0496a2d38e5fcce1ff1bbe56016fe638318fc36fe558ffda"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/models/encoder.py",
+      "file": "experiments/rl_meta_pose_feedback/models/encoder.py",
+      "sha256": "a71eb629e3aecc55dd200cf1ecb907e8efb0a6596c7f60954607c36321c87868"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/models/policy.py",
+      "file": "experiments/rl_meta_pose_feedback/models/policy.py",
+      "sha256": "fbf909e57e4c2645e673960b733a1ac7239a0382d5a3906190ef2481b170e4ea"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/models/synergy.py",
+      "file": "experiments/rl_meta_pose_feedback/models/synergy.py",
+      "sha256": "cc9f3cd4745bacd372ae9ca8d27d801c35da03d1accebcfa597e186ee461fd00"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/models/value.py",
+      "file": "experiments/rl_meta_pose_feedback/models/value.py",
+      "sha256": "43ba4c7a563c5312e4aafcb338a153adf09325a087a7f9f5988596f5f09b5f48"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/models/__init__.py",
+      "file": "experiments/rl_meta_pose_feedback/models/__init__.py",
+      "sha256": "b4aca2170a55e8666caf51f8cf899a769d747cc148ca4f66eea75c562e2c0250"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/tests/test_bilateral_data.py",
+      "file": "experiments/rl_meta_pose_feedback/tests/test_bilateral_data.py",
+      "sha256": "21982874ec07ba1aafb20bde21b0e5d5788e4d0caf81963ef9ed47030c1cc99c"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/tests/test_frozen_tracking.py",
+      "file": "experiments/rl_meta_pose_feedback/tests/test_frozen_tracking.py",
+      "sha256": "2c8629e7334309e38c7acdaa94b7aad38da365746684fb9140b50df6c52aca40"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/tests/test_parallel_preparation.py",
+      "file": "experiments/rl_meta_pose_feedback/tests/test_parallel_preparation.py",
+      "sha256": "44c34191208af64f45aaaa97e4ec45f5c455dbf068ae665ebf5112070fa82f6f"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/tests/test_pose_feedback.py",
+      "file": "experiments/rl_meta_pose_feedback/tests/test_pose_feedback.py",
+      "sha256": "8b3f87ce873ff3e76273b29f09fbbc0911d68810cf52d17b98c27feabbd0855e"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/tests/__init__.py",
+      "file": "experiments/rl_meta_pose_feedback/tests/__init__.py",
+      "sha256": "5694fdd838b470d223eea6899dab4cb0f5d4945689e7040a6c7746bacdb83278"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/config.py",
+      "file": "experiments/rl_meta_pose_feedback/training/config.py",
+      "sha256": "fdf5e92888848f05e21364640fdd45e0e05230ca005b8aaa6107279af3e6da59"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/data.py",
+      "file": "experiments/rl_meta_pose_feedback/training/data.py",
+      "sha256": "d9eae20cdc34cb266b9e486e842af29dd6cb554d28f573b5de366d2bca92ff57"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/evaluation.py",
+      "file": "experiments/rl_meta_pose_feedback/training/evaluation.py",
+      "sha256": "39747223eced093b76b8619c95a01f9f4b55712a76bd15a4eabdfe8b6016d394"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/parallel.py",
+      "file": "experiments/rl_meta_pose_feedback/training/parallel.py",
+      "sha256": "e6e9c9438e2b04bb882c1ed523afa8b66f91cf56ff69b95d1ecb7bd73a70f496"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/rollout.py",
+      "file": "experiments/rl_meta_pose_feedback/training/rollout.py",
+      "sha256": "5a2dae2bddbd1cdfd8cc45389092d7ad73f561a85a6fd7c523189e6b575f6681"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/run.py",
+      "file": "experiments/rl_meta_pose_feedback/training/run.py",
+      "sha256": "402feb678dcd64010da4daff45e126bdfa902040c8832b176d83ce49408aee0b"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/runtime.py",
+      "file": "experiments/rl_meta_pose_feedback/training/runtime.py",
+      "sha256": "364e011a5a19a97db8279c6523bd447b27ffee28fb86d55bb12a007f40e890e9"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/sampling.py",
+      "file": "experiments/rl_meta_pose_feedback/training/sampling.py",
+      "sha256": "2b663a15a285cda791bd862ddd349125a8c6d32583b4ee25713e7ba3315c8044"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/trainer.py",
+      "file": "experiments/rl_meta_pose_feedback/training/trainer.py",
+      "sha256": "237b586da442c0b883dfdc811b6397fdc3d0285ae7733356380c17c6e8d2e93a"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/windows.py",
+      "file": "experiments/rl_meta_pose_feedback/training/windows.py",
+      "sha256": "2b141beaaa114cd89d98cd5c4e7e88045f6d5b030a60f85de8086b973de87b41"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/training/__init__.py",
+      "file": "experiments/rl_meta_pose_feedback/training/__init__.py",
+      "sha256": "a68e5bf43dda71a2f8ca045806a8ed5f6b9b4962566f38325154c8f7d209ee46"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/visualization/replay.html",
+      "file": "experiments/rl_meta_pose_feedback/visualization/replay.html",
+      "sha256": "5dc58ebf1615ad02d993351c2e1b8f3dee1b53162d2ace5ed97f072eeb333035"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/visualization/replay.py",
+      "file": "experiments/rl_meta_pose_feedback/visualization/replay.py",
+      "sha256": "5b92837367402d129282f76a8b37bc691fb88f8dbb92ea601eb68fc6d27b0144"
+    },
+    {
+      "source": "experiment/experiments/rl_meta_pose_feedback/visualization/__init__.py",
+      "file": "experiments/rl_meta_pose_feedback/visualization/__init__.py",
+      "sha256": "35b60542fee5c384da0878112a2206b6d031b9ad1fb3296767cb562a5ca5c289"
+    },
+    {
+      "source": "experiment/experiments/meta_reproduction/assets/source/emg2pose/__init__.py",
+      "file": "third_party/meta_reference/emg2pose/__init__.py",
+      "sha256": "9b703c1e0053753a565a8ff09418b823b4aaa0953a1b661fd8403ebe6b8e3a8f"
+    },
+    {
+      "source": "experiment/experiments/meta_reproduction/assets/source/emg2pose/constants.py",
+      "file": "third_party/meta_reference/emg2pose/constants.py",
+      "sha256": "8ae5d6941be9fd4c2600f79d4a81f618af003ffe565c672f018626b1132a8d85"
+    },
+    {
+      "source": "experiment/experiments/meta_reproduction/assets/source/emg2pose/networks.py",
+      "file": "third_party/meta_reference/emg2pose/networks.py",
+      "sha256": "1c5dafe4b37380b1ef83c58696a5cdd4d9abe0c9a63af4b4fb88c3e449ee082c"
+    },
+    {
+      "source": "experiment/experiments/meta_reproduction/assets/source/emg2pose/pose_modules.py",
+      "file": "third_party/meta_reference/emg2pose/pose_modules.py",
+      "sha256": "7e02d749d7db44d5370295872e9ab8f12e2e47a9e4b89386a2d9a5d101fd3b9b"
+    },
+    {
+      "source": "experiment/experiments/meta_reproduction/assets/source/LICENSE",
+      "file": "third_party/meta_reference/LICENSE",
+      "sha256": "2afe33b89384d58a069e99c571c7b274ee2f82592abe6b0420aa6ca0c175c8fa"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/hand_f1_990_f2_990_f3_990_f4_990_f5_990_complete.xml",
+      "file": "resources/robot/hand_f1_990_f2_990_f3_990_f4_990_f5_990_complete.xml",
+      "sha256": "a5fe5e63d2be48ba1ee78b6593de5d5ae2a5507f0c6676f19e6f60ecae1c16a9"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f5.xml",
+      "file": "resources/robot/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f5.xml",
+      "sha256": "1c24b3ddf8f55d9697781e9034d86a04c524cc74c2b1a37c896c6b4787a33bf3"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_tip_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_tip_vis.obj",
+      "sha256": "e9536efb48d9904a8675485be940769862fa2881ef3e1c179e6a063b64e6ecad"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_end_lever_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_end_lever_vis.obj",
+      "sha256": "ee95b5ae5246eb2e2cb38c7cbc231a1fdef97779030b415bf9d38daa57609586"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_end_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_end_vis.obj",
+      "sha256": "621797edcd35de99537e69f8c5eaa600b776078811be06a8473406f2fccddad4"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_grammar2_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_grammar2_vis.obj",
+      "sha256": "39079ace86a31c0b5164c7ed11870fcaf5fe0b793a8a12853b60bbfd71956652"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_middle_lever_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_middle_lever_vis.obj",
+      "sha256": "d267d4c7a8407fc3eb6c6a80aec52444ba9b58627bd9fd16f3ec5c800775c953"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_middle_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_middle_vis.obj",
+      "sha256": "67b9eabf22c1d0732730de9956de440329774f11f000a88a6aa138e7661e3970"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_grammar1_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_grammar1_vis.obj",
+      "sha256": "9dcd8d1d6620d79443ee640e670c16385e6e5adb9a4e1081f97145f9502a2ec9"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_base_lever_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_base_lever_vis.obj",
+      "sha256": "c8218360d260e86cecdb765ec1d545dc83783d27603d41fc2c84d7ef628b1bf7"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_base_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_base_vis.obj",
+      "sha256": "7bd521372dceaea0b51efe9f8c2f6e30acd490988f2de13b1b69c988d5cd3a99"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_palm_servo_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_palm_servo_vis.obj",
+      "sha256": "249eddb877dd5483e6dd7378abbefd850ac93104fdeed8cc1e5e0c9698ea0332"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_tip_part1.obj",
+      "file": "resources/robot/robot_meshes/finger_tip_part1.obj",
+      "sha256": "3cf1481f858a7151efb65778dc2cd946808fbb5a10ff73f424b553c3807f1baa"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_tip_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_tip_part0.obj",
+      "sha256": "8b29b3aa8573d8e949365db63e02c48e5f9c78b84a037c42f85f1c3787897600"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_end_lever_part3.obj",
+      "file": "resources/robot/robot_meshes/finger_end_lever_part3.obj",
+      "sha256": "816c475b5475fb0ef8a2d6a8f93ab376aa59ec5dc05a3c190714f6413738be90"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_end_lever_part2.obj",
+      "file": "resources/robot/robot_meshes/finger_end_lever_part2.obj",
+      "sha256": "f4b50adbf2f2214334e9d3a79a8b2608b2b81b42fe4b7958ad6a85b41ce49e42"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_end_lever_part1.obj",
+      "file": "resources/robot/robot_meshes/finger_end_lever_part1.obj",
+      "sha256": "43a3afd25ce6311cb6ff45f9bf5452f49ceb14df435d7e91ea888bce658f0623"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_end_lever_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_end_lever_part0.obj",
+      "sha256": "cbacfe5297a87bdb9dc66959fc76b32281535d5f5d18cdb67d1b7167ffecac76"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_end_servo_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_end_servo_part0.obj",
+      "sha256": "4ef0df0b093ee8963ffa4493bb69913bbaa154d6f04a2f5d70a8fa9b45eeace3"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_grammar2_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_grammar2_part0.obj",
+      "sha256": "babda51bc9d2ea53f815315ffba046108b9f57a34a32ca90b72518a502d41f2c"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_middle_lever_part2.obj",
+      "file": "resources/robot/robot_meshes/finger_middle_lever_part2.obj",
+      "sha256": "eeb57ae2f5cbc16081cf476cb7390c5212664a5890bf50eccfe31371ad9f088f"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_middle_lever_part1.obj",
+      "file": "resources/robot/robot_meshes/finger_middle_lever_part1.obj",
+      "sha256": "d0bd9ad5d4eaf7af7005ed34b5453dcbb21674fadb7ff16bf521c2f4a51686be"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_middle_lever_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_middle_lever_part0.obj",
+      "sha256": "aabf0669767abe8e6723091a28a4e6f02d162c1d0065614951a642509d53bdc5"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_middle_servo_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_middle_servo_part0.obj",
+      "sha256": "c832f25b937d7135e3eefb477a35c566d0706dd3f598ed3863d6a5af118dfa04"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_grammar1_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_grammar1_part0.obj",
+      "sha256": "eb63a735f9aa02fcb5791c191b4e48b03e11017920a161a5da075cb1f23c1b6e"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_base_lever_part2.obj",
+      "file": "resources/robot/robot_meshes/finger_base_lever_part2.obj",
+      "sha256": "c3ea88861dc6fdb36e81d213d77f71bf572b1aa688260b4e67b5ddc9b076d50a"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_base_lever_part1.obj",
+      "file": "resources/robot/robot_meshes/finger_base_lever_part1.obj",
+      "sha256": "fc60f68c95afbeba665b7f5e38f3b762f2992bfd004f7823bdd22182abbd4b9e"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_base_lever_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_base_lever_part0.obj",
+      "sha256": "a80a6940e27cc5addffd4c8cf7ab18252880e172da47721a67dbdf77c3c1d3eb"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_base_servo_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_base_servo_part0.obj",
+      "sha256": "1b076136b19b138ec374a7031765384f94ab5bbcf254aa8649ac7fe689255649"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_palm_servo_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_palm_servo_part0.obj",
+      "sha256": "d2a6a7bf77fd851a51fcebf27a3fe44bfcf92fb2e4b8b60ae624dd522c7f960d"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f4.xml",
+      "file": "resources/robot/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f4.xml",
+      "sha256": "d12c558d7afffe5386cb480b83c1c675544c75d91d2ca6bb21d5ac12ff514622"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/visual/finger_tip_wedged_vis.obj",
+      "file": "resources/robot/robot_meshes/visual/finger_tip_wedged_vis.obj",
+      "sha256": "5dd090e97859ceea017657548caeffdba410dd198c7f8fa1666c58030ee768b1"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/robot_meshes/finger_tip_wedged_part0.obj",
+      "file": "resources/robot/robot_meshes/finger_tip_wedged_part0.obj",
+      "sha256": "a7189a9a4e3915154b9d6508300d2dbe97de38211ff14025989b71872c66f8bb"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f3.xml",
+      "file": "resources/robot/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f3.xml",
+      "sha256": "1c24b3ddf8f55d9697781e9034d86a04c524cc74c2b1a37c896c6b4787a33bf3"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f2.xml",
+      "file": "resources/robot/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f2.xml",
+      "sha256": "d12c558d7afffe5386cb480b83c1c675544c75d91d2ca6bb21d5ac12ff514622"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f1.xml",
+      "file": "resources/robot/hand_f1_990_f2_990_f3_990_f4_990_f5_990_f1.xml",
+      "sha256": "1c24b3ddf8f55d9697781e9034d86a04c524cc74c2b1a37c896c6b4787a33bf3"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/meshes/hand_f1_990_f2_990_f3_990_f4_990_f5_990_palm_part0.obj",
+      "file": "resources/robot/meshes/hand_f1_990_f2_990_f3_990_f4_990_f5_990_palm_part0.obj",
+      "sha256": "2540a3859aeaaab54dfca6e4509845429f40d4a387232ebdeb6bbd65a2413622"
+    },
+    {
+      "source": "experiment/hod/outputs/long_fingers/xml/meshes/hand_f1_990_f2_990_f3_990_f4_990_f5_990_palm.obj",
+      "file": "resources/robot/meshes/hand_f1_990_f2_990_f3_990_f4_990_f5_990_palm.obj",
+      "sha256": "e8a1ef25b3a6a08ab25880449f43395a84e407016759251d2cf0008e8c03f33f"
+    },
+    {
+      "source": "experiment/hod/upstream/LICENSE",
+      "file": "resources/robot/LICENSE",
+      "sha256": "403007126cefb3e2d184565d88bd8e23df36612564142f36b83393d306527270"
+    },
+    {
+      "source": "experiment/hod/long_fingers_config.json",
+      "file": "resources/robot/generation_config.json",
+      "sha256": "23dfdee6d171ebe6e89ed79916b4821f7fb3923bd6a77389d3006d7d04d13c20"
+    }
+  ]
+}

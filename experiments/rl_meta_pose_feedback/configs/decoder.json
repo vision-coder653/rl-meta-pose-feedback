@@ -1,0 +1,6 @@
+{
+  "fusion": "hidden_morph_command_v2",
+  "morphology_dim": 35,
+  "hidden_sizes": [128, 128],
+  "activation": "gelu"
+}

@@ -1,0 +1,4 @@
+# Keep exact robot bytes: checkpoints record the MJCF SHA-256.
+resources/** -text -whitespace
+third_party/** -text -whitespace
+core/resources/** -text -whitespace

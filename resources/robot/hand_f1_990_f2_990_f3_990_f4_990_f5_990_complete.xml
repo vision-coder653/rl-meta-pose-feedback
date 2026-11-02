@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco model="hand_f1_990_f2_990_f3_990_f4_990_f5_990_scene">
+  <compiler angle="radian" meshdir="./" inertiagrouprange="1 1"/>
+  <option integrator="implicitfast" cone="elliptic" impratio="100" timestep="0.002">
+    <flag warmstart="enable" nativeccd="enable" multiccd="enable"/>
+  </option>
+  <asset>
+    <mesh name="palm_vis" file="meshes/hand_f1_990_f2_990_f3_990_f4_990_f5_990_palm.obj"/>
+    <mesh name="palm_part0" file="meshes/hand_f1_990_f2_990_f3_990_f4_990_f5_990_palm_part0.obj"/>
+    <model name="finger_model_1" file="hand_f1_990_f2_990_f3_990_f4_990_f5_990_f1.xml"/>
+    <model name="finger_model_2" file="hand_f1_990_f2_990_f3_990_f4_990_f5_990_f2.xml"/>
+    <model name="finger_model_3" file="hand_f1_990_f2_990_f3_990_f4_990_f5_990_f3.xml"/>
+    <model name="finger_model_4" file="hand_f1_990_f2_990_f3_990_f4_990_f5_990_f4.xml"/>
+    <model name="finger_model_5" file="hand_f1_990_f2_990_f3_990_f4_990_f5_990_f5.xml"/>
+    <texture name="grid" type="2d" builtin="checker" rgb1=".1 .2 .3" rgb2=".2 .3 .4" width="300" height="300" mark="none"/>
+    <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance=".2"/>
+  </asset>
+  <default>
+    <geom solimp="0.999 0.999 0.001 0.0001 1" solref="0.0001 1" friction=".2" condim="6" margin="0.002"/>
+    <joint damping="0.03" frictionloss="0.001" armature="0.0015"/>
+  </default>
+  <visual>
+    <global azimuth="120" elevation="-20"/>
+  </visual>
+  <worldbody>
+    <light name="main_light" pos="0 0 4" dir="0 0 -1" diffuse="1 1 1" specular="0.5 0.5 0.5"/>
+    <geom name="floor" type="plane" pos="0 0 0" size="10 10 0.1" material="grid"/>
+    <body name="hand" pos="0 0 0.5" euler="3.1415926 0 0">
+      <body name="palm">
+        <geom name="palm_geom_0" type="mesh" mesh="palm_part0" group="1" rgba="1 1 1 1"/>
+        <geom name="palm_vis_geom" type="mesh" mesh="palm_vis" group="0" contype="0" conaffinity="0"/>
+      </body>
+      <frame pos="-0.010808 -0.030166 0.082200" quat="0.514680 0.000000 0.000000 0.857383">
+        <attach model="finger_model_1" body="finger_root" prefix="f1_"/>
+      </frame>
+      <frame pos="-0.031529 -0.005723 0.082200" quat="0.874417 0.000000 0.000000 0.485175">
+        <attach model="finger_model_2" body="finger_root" prefix="f2_"/>
+      </frame>
+      <frame pos="-0.027831 0.015883 0.082200" quat="0.987623 0.000000 0.000000 0.156848">
+        <attach model="finger_model_3" body="finger_root" prefix="f3_"/>
+      </frame>
+      <frame pos="-0.011111 0.030056 0.082200" quat="0.981707 0.000000 0.000000 -0.190398">
+        <attach model="finger_model_4" body="finger_root" prefix="f4_"/>
+      </frame>
+      <frame pos="0.010808 0.030166 0.082200" quat="0.857383 0.000000 0.000000 -0.514680">
+        <attach model="finger_model_5" body="finger_root" prefix="f5_"/>
+      </frame>
+    </body>
+    <camera name="fixed" pos="0 -3 2" xyaxes="1 0 0 0 1 2"/>
+  </worldbody>
+</mujoco>

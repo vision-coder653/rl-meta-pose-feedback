@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rl-meta-pose-feedback"
+version = "0.1.0"
+description = "Offline EMG-to-hand PPO with frozen Meta tracking features and internal command-pose feedback"
+requires-python = ">=3.12"
+
+# Source/editable checkout only: resource paths are anchored to this repository.
+[tool.setuptools]
+package-dir = {"" = "core", "rl_meta_pose_feedback" = "experiments/rl_meta_pose_feedback"}
+py-modules = ["emg_control_paths"]
+
+[tool.setuptools.packages.find]
+where = ["core", "experiments"]
+include = ["configs*", "data_pipeline*", "kinematics*", "simulation*", "rl_meta_pose_feedback*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+rl_meta_pose_feedback = ["configs/*.json"]
+"rl_meta_pose_feedback.visualization" = ["replay.html"]

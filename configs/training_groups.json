@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "groups": [
+    {
+      "name": "sym3",
+      "reward_definition": "origin_local_bidirectional_palm_v2",
+      "robot_finger_ids": [1, 2, 3],
+      "human_fingers": ["thumb", "index", "middle"],
+      "human_scale": 1.0,
+      "palm_reference_finger": "middle",
+      "human_reference_offset_m": [-0.08176032898187144, -0.020539842299523315, 0.004241872247429605]
+    },
+    {
+      "name": "sym4",
+      "reward_definition": "origin_local_bidirectional_palm_v2",
+      "robot_finger_ids": [1, 2, 3, 4],
+      "human_fingers": ["thumb", "index", "middle", "ring"],
+      "human_scale": 1.0,
+      "palm_reference_finger": "middle",
+      "human_reference_offset_m": [-0.08176032898187144, -0.020539842299523315, 0.004241872247429605]
+    },
+    {
+      "name": "sym5",
+      "reward_definition": "origin_local_bidirectional_palm_v2",
+      "robot_finger_ids": [1, 2, 3, 4, 5],
+      "human_fingers": ["thumb", "index", "middle", "ring", "pinky"],
+      "human_scale": 1.0,
+      "palm_reference_finger": "middle",
+      "human_reference_offset_m": [-0.08176032898187144, -0.020539842299523315, 0.004241872247429605]
+    },
+    {
+      "name": "anth21",
+      "reward_definition": "origin_local_bidirectional_palm_v2",
+      "robot_finger_ids": [1, 2, 3, 4, 5],
+      "human_fingers": ["thumb", "index", "middle", "ring", "pinky"],
+      "human_scale": 1.0,
+      "palm_reference_finger": "middle",
+      "human_reference_offset_m": [-0.08176032898187144, -0.020539842299523315, 0.004241872247429605]
+    },
+    {
+      "name": "anth27",
+      "reward_definition": "origin_local_bidirectional_palm_v2",
+      "robot_finger_ids": [1, 2, 3, 4, 5],
+      "human_fingers": ["thumb", "index", "middle", "ring", "pinky"],
+      "human_scale": 1.0,
+      "palm_reference_finger": "middle",
+      "human_reference_offset_m": [-0.08176032898187144, -0.020539842299523315, 0.004241872247429605]
+    },
+    {
+      "name": "anth33",
+      "reward_definition": "origin_local_bidirectional_palm_v2",
+      "robot_finger_ids": [1, 2, 3, 4, 5],
+      "human_fingers": ["thumb", "index", "middle", "ring", "pinky"],
+      "human_scale": 1.0,
+      "palm_reference_finger": "middle",
+      "human_reference_offset_m": [-0.08176032898187144, -0.020539842299523315, 0.004241872247429605]
+    }
+  ]
+}
